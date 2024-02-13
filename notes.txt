@@ -1,0 +1,102 @@
+what is node js?
+- built over javascript
+- uses v8 engine which was develop for google (writtem in CPP)
+- JS runs in browsers
+- NodeJS is javascript runtime (allow you to run JS on server) which means we can run node js without browser
+- NodeJS uses V8 engine to convert JS code to machine code
+
+First Code
+- check node version node -v
+- to enter nodeJS interactive mode called REPL write node in cmd
+- execute file using nodeJs like node HelloWorld.js
+
+nodeJS role in Web Development
+- Run Server (create Server and listen to incoming request)
+- Business logic (Handle request, validate input, connect to DB)
+- responses (return responses (rendered HTML, JSON etc))
+
+JS Summary
+- weakly typed language (no type assignment, data types can be switched dynamically)
+- OO language
+- versatile language (run in browser as well on local and server, can perform broad variety of task)
+
+const vs let vs var
+- var is global scoped (if variable define outside function can be access anywhere in program)
+- all three are function scope
+- const and let are blocked scope (It can’t be accessible outside the particular block).
+- hoisting (a variable can be declared after it has been used) only var
+   x = 5;
+   var x;
+- redeclaration only in var
+- reassignment in var and let
+
+objects
+- object allow you to group key pair value
+  const person = {
+    name: 'Hassan' // name is the key hassan is the value where this is the property of object
+    age: 29
+    // three ways to declare fuction in object where this refer to object
+    greet1() {console.log('hi' + this.name)} //output h1 hassan
+    greet2: () => {console.log('hi' + this.name)} // Arrow functions do not bind their own "this" output will be error
+    greet3: function(){console.log('hi' + this.name)} //output h1 hassan
+  }
+
+primitive vs reference type
+- arrays and objects are considered reference types, while primitive types include numbers, strings, booleans, null, and undefined
+- Primitive types are immutable, meaning their values cannot be changed. When you assign a new value to a variable holding a primitive type, 
+  it creates a new copy of that value.
+- Reference types are mutable, meaning their values can be changed. When you assign a reference type to a variable, 
+  the variable holds a reference (memory address) to the actual object or array. Modifying the object or array through one variable affects all references to it.
+
+spread operator vs rest operator
+const a = 1;
+const arr = [2,3,4,5] 
+const b = [...arr]; // spread operator extracts the collected elements to single element
+const c = [a, ...arr]; // rest operator is known for destruction of element then it collects the leftover element to make it array or obj
+
+destructuring
+  const person = {
+    name: 'Hassan'
+    age: 29
+    greet1() {console.log('hi' + this.name)}
+  }
+  
+  //destructuring in function
+  const printName = ({name}) => console.log(name);
+  printName(person);
+
+  // object destructuring
+  const {name, age} = person;
+
+  // array destructuring
+
+  const hobbies = ['sports','cooking'];
+  const [hobby1, hobby2] = hobbies; // in array des depends on index
+  console.log(hobby1, hobby2) // output sports, cooking
+
+  async code
+  const fetchData = () => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, 1500);
+  });
+  return promise;
+};
+
+setTimeout(() => {
+  console.log('Timer is done!');
+  fetchData()
+    .then(text => {
+      console.log(text);
+      return fetchData();
+    })
+    .then(text2 => {
+      console.log(text2);
+    });
+}, 2000);
+
+console.log('Hello!');
+console.log('Hi!');
+
+Node program lifecycle
