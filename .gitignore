@@ -40,7 +40,8 @@ build/Release
 
 # Dependency directories
 node_modules/
-Project-get-data-through-file/node_modules/
+Node-Project-get-data-through-file/node_modules/
+Node-Project-SQL/node_modules/
 
 jspm_packages/
 
