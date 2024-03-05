@@ -1,0 +1,76 @@
+const Product = require("../models/product");
+
+exports.getAddProduct = (req, res, next) => {
+  res.render("admin/edit-product", {
+    pageTitle: "Add Product",
+    path: "/admin/add-product",
+    editing: false,
+  });
+};
+
+exports.postAddProduct = (req, res, next) => {
+  const title = req.body.title;
+  const imageUrl = req.body.imageUrl;
+  const price = req.body.price;
+  const description = req.body.description;
+  const products = new Product(null, title, imageUrl, price, description);
+  products.save();
+  res.redirect("/");
+};
+
+exports.getEditProduct = (req, res, next) => {
+  // we don't add query param in routes instead we check for query params in controller
+  console.log("hello");
+  const editMode = req.query.edit;
+  console.log(editMode);
+  if (!editMode) {
+    res.redirect("/");
+  }
+  const prodId = req.params.productId;
+  Product.fetchById(prodId, (product) => {
+    if (!product) res.redirect("/");
+
+    res.render("admin/edit-product", {
+      pageTitle: "Edit Product",
+      path: "/admin/edit-product",
+      editing: editMode,
+      product: product,
+    });
+  });
+};
+
+exports.postEditProduct = (req, res, next) => {
+ const prodId = req.body.productId;
+ const updatedTitle = req.body.title;
+ const updatedPrice = req.body.price;
+ const updatedImageUrl = req.body.imageUrl;
+ const updatedDesc = req.body.description;
+ const updatedProduct = new Product(
+  prodId,
+  updatedTitle,
+  updatedImageUrl,
+  updatedPrice,
+  updatedDesc,
+  );
+  console.log('kkkk');
+  updatedProduct.save();
+  res.redirect('/admin/products');
+};
+
+exports.deleteProduct = (req, res, next) => {
+  const prodId = req.params.productId;
+  const updatedProduct = new Product(prodId, null, null, null, null);
+   console.log('kkkk');
+   updatedProduct.delete();
+   res.redirect('/admin/products');
+ };
+
+exports.getProducts = (req, res, next) => {
+  Product.fetchAll((products) => {
+    res.render("admin/products", {
+      prods: products,
+      pageTitle: "Admin Products",
+      path: "/admin/products",
+    });
+  });
+};
