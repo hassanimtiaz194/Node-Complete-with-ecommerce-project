@@ -41,8 +41,8 @@ build/Release
 # Dependency directories
 node_modules/
 Node-Project-get-data-through-file/node_modules/
-Node-Project-SQL/node_modules/
-
+Node-Project-SQL-Query/node_modules/
+Node-Project-SQL-Sequelize/node_modules/
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
