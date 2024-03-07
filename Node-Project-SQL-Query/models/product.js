@@ -1,4 +1,4 @@
-/* const sqlDb = require("../util/sql-database");
+const sqlDb = require("../util/sql-database");
 
 module.exports = class Product {
   constructor(id, title, imageUrl, price, description) {
@@ -26,35 +26,4 @@ module.exports = class Product {
   static fetchById(id) {
     return sqlDb.execute("SELECT * FROM products WHERE products.id = ?", [id]);
   }
-}; */
-
-const Sequelize = require('sequelize');
-
-const sequelize = require('../util/sql-database');
-
-const Product = sequelize.define('product', {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    allowNull: false,
-    primaryKey: true,
-  },
-  title: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  price: {
-    type: Sequelize.DOUBLE,
-    allowNull: false,
-  },
-  description: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  imageUrl: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  }
-});
-
-module.exports = Product;
+};

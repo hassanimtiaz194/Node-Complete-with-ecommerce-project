@@ -17,20 +17,55 @@ const shopRoutes = require("./routes/shop");
 const errorController = require("./controllers/error");
 
 const sequelize = require("./util/sql-database");
-
+const Product = require("./models/product");
+const User = require("./models/user");
+const Cart = require("./models/cart");
+const CartItem = require("./models/cart-item");
+const Order = require("./models/order");
+const OrderItem = require("./models/order-item");
 // this will automatically do request body parsing
 app.use(bodyParser.urlencoded({ extended: false })); //  The extended option determines whether to use the querystring library
 app.use(express.static(path.join(__dirname, "public"))); //to provide access to static files
+
+// this will only execute when server start after sequelize sync
+app.use((req, res, next) => {
+  User.findByPk(1)
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((err) => console.log(err));
+});
+
 app.use("/admin", adminRoutes); // adding filter segment now path will be like /admin/add-product
 
 app.use(shopRoutes);
 
 app.use(errorController.get404);
 
+// creating Association of tables
+Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" }); //cascade mean delete (optional)
+User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
+Order.belongsTo(User);
+User.hasMany(Order);
+Order.belongsToMany(Product, { through: OrderItem });
+
 // sync your model with the db doesn't overwrite table if exist
 sequelize
-  .sync()
-  .then((result) => console.log(result))
+  //.sync({force: true})
+  .sync() // {force: true} this will remove data in table if no relation
+  .then((result) => User.findByPk(1))
+  .then((user) => {
+    if (!user) User.create({ name: "Hassan", email: "test@gmail.com" });
+    return user;
+  })
+  .then((user) => {
+    console.log(user);
+    return user.createCart();
+  })
+  .then((result) => app.listen(3000)) //app.listen create server and listen to port 3000
   .catch((err) => console.log(err));
-
-app.listen(3000); //app.listen create server and listen to port 3000
