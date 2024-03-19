@@ -1,0 +1,25 @@
+{
+  "name": "nodejs-complete-project",
+  "version": "1.0.0",
+  "description": "complete guide for node js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "start-server": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "mongodb": "^6.5.0",
+    "mysql2": "^3.9.2",
+    "pug": "^3.0.2",
+    "sequelize": "^6.37.1"
+  }
+}

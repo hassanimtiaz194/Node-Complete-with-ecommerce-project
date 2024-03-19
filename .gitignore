@@ -43,6 +43,8 @@ node_modules/
 Node-Project-get-data-through-file/node_modules/
 Node-Project-SQL-Query/node_modules/
 Node-Project-SQL-Sequelize/node_modules/
+Node-Project-MongoDB/node_modules/
+Node-Project-Mongoose/node_modules/
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
