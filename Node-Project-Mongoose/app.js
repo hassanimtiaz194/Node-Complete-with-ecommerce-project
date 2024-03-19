@@ -14,9 +14,9 @@ const adminRoutes = require("./routes/admin");
 
 const shopRoutes = require("./routes/shop");
 
-const errorController = require("./controllers/error");
+const mongoose = require("mongoose");
 
-const mongoConnect = require("./util/database").mongoConnect;
+const errorController = require("./controllers/error");
 
 const User = require("./models/user");
 
@@ -26,9 +26,9 @@ app.use(express.static(path.join(__dirname, "public"))); //to provide access to 
 
 // this will only execute when server start after sequelize sync
 app.use((req, res, next) => {
-  User.findById('65f8bb9a897ea4414c782a5a')
+  User.findById("65fa05d0b02d9d6a5c381866")
     .then((user) => {
-      req.user = new User (user.name, user.email, user.cart, user._id);
+      req.user = user;
       next();
     })
     .catch((err) => console.log(err));
@@ -40,6 +40,21 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-mongoConnect(() => {
-  app.listen(3000);
-});
+mongoose
+  .connect(
+    "mongodb+srv://himtiaz194:H12345678@cluster0.asgtm0w.mongodb.net/shop?retryWrites=true&w=majority&appName=Cluster0"
+  )
+  .then((result) => {
+    User.findOne().then((user) => {
+      if (!user) {
+        const user = new User({
+          name: "Hassan",
+          email: "hassan@test.com",
+          cart: { item: [] },
+        });
+        user.save();
+      }
+    });
+    app.listen(3000);
+  })
+  .catch((err) => console.log(err));
